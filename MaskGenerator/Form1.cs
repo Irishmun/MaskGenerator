@@ -168,6 +168,8 @@ namespace MaskGenerator
             if (pb.Image == null)
             { return; }
             int index = Array.IndexOf(_setImages, pb.Image);
+            if (index < 0)
+            { return; }
             _setImages[index] = null;
             pb.Image = null;
         }

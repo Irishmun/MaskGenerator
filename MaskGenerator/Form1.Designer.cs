@@ -50,8 +50,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.BT_ClearMask = new System.Windows.Forms.Button();
             this.BT_SaveMask = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
+            this.BT_CopyMask = new System.Windows.Forms.Button();
             this.PB_Mask = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.TSSL_OutputSize = new System.Windows.Forms.ToolStripStatusLabel();
@@ -299,21 +298,20 @@
             // 
             this.groupBox1.Controls.Add(this.BT_ClearMask);
             this.groupBox1.Controls.Add(this.BT_SaveMask);
-            this.groupBox1.Controls.Add(this.button8);
-            this.groupBox1.Controls.Add(this.button7);
+            this.groupBox1.Controls.Add(this.BT_CopyMask);
             this.groupBox1.Controls.Add(this.PB_Mask);
             this.groupBox1.Location = new System.Drawing.Point(441, 34);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(268, 370);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Channels";
+            this.groupBox1.Text = "Mask";
             // 
             // BT_ClearMask
             // 
-            this.BT_ClearMask.Location = new System.Drawing.Point(137, 281);
+            this.BT_ClearMask.Location = new System.Drawing.Point(6, 281);
             this.BT_ClearMask.Name = "BT_ClearMask";
-            this.BT_ClearMask.Size = new System.Drawing.Size(125, 23);
+            this.BT_ClearMask.Size = new System.Drawing.Size(256, 23);
             this.BT_ClearMask.TabIndex = 8;
             this.BT_ClearMask.Tag = "PB_Mask";
             this.BT_ClearMask.Text = "Clear";
@@ -326,29 +324,21 @@
             this.BT_SaveMask.Name = "BT_SaveMask";
             this.BT_SaveMask.Size = new System.Drawing.Size(256, 23);
             this.BT_SaveMask.TabIndex = 12;
+            this.BT_SaveMask.Tag = "PB_Mask";
             this.BT_SaveMask.Text = "Save As...";
             this.BT_SaveMask.UseVisualStyleBackColor = true;
             this.BT_SaveMask.Click += new System.EventHandler(this.BT_SaveMask_Click);
             // 
-            // button8
+            // BT_CopyMask
             // 
-            this.button8.Enabled = false;
-            this.button8.Location = new System.Drawing.Point(6, 310);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(256, 23);
-            this.button8.TabIndex = 11;
-            this.button8.Text = "Save...";
-            this.button8.UseVisualStyleBackColor = true;
-            // 
-            // button7
-            // 
-            this.button7.Enabled = false;
-            this.button7.Location = new System.Drawing.Point(6, 281);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(125, 23);
-            this.button7.TabIndex = 10;
-            this.button7.Text = "Browse...";
-            this.button7.UseVisualStyleBackColor = true;
+            this.BT_CopyMask.Location = new System.Drawing.Point(6, 310);
+            this.BT_CopyMask.Name = "BT_CopyMask";
+            this.BT_CopyMask.Size = new System.Drawing.Size(256, 23);
+            this.BT_CopyMask.TabIndex = 11;
+            this.BT_CopyMask.Tag = "PB_Mask";
+            this.BT_CopyMask.Text = "Copy";
+            this.BT_CopyMask.UseVisualStyleBackColor = true;
+            this.BT_CopyMask.Click += new System.EventHandler(this.BT_CopyChannel_Click);
             // 
             // PB_Mask
             // 
@@ -439,8 +429,7 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button BT_CopyRedChannel;
         private System.Windows.Forms.Button BT_SaveMask;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button BT_CopyMask;
         private System.Windows.Forms.Button BT_ClearAlpha;
         private System.Windows.Forms.Button BT_CopyAlphaChannel;
         private System.Windows.Forms.Button BT_ClearBlue;
