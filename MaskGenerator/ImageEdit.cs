@@ -45,5 +45,30 @@ namespace MaskGenerator
             return (byte)remapped;
         }
 
+        internal Bitmap CreateNonIndexedImage(Image src)
+        {
+            Bitmap newBmp = new Bitmap(src.Width, src.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+            using (Graphics gfx = Graphics.FromImage(newBmp))
+            {
+                gfx.DrawImage(src, 0, 0);
+            }
+
+            return newBmp;
+        }
+
+        internal bool ImageIsIndexed(Image src)
+        {
+            switch (src.PixelFormat)
+            {//return true on any indexed format, return false on whatever else it might be
+                case System.Drawing.Imaging.PixelFormat.Indexed:
+                case System.Drawing.Imaging.PixelFormat.Format1bppIndexed:
+                case System.Drawing.Imaging.PixelFormat.Format4bppIndexed:
+                case System.Drawing.Imaging.PixelFormat.Format8bppIndexed:
+                    return true;
+                default:
+                    return false;
+            }
+        }
     }
 }

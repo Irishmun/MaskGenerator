@@ -46,19 +46,31 @@ namespace MaskGenerator
         {
             e.Effect = DragDropEffects.All;
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void BT_ToMask_Click(object sender, EventArgs e)
         {
             if (_smallestSize.Width == int.MaxValue)
             { return; }
 
             int index = GetFirstNonEmpty(_setImages);
-            PixelFormat format;
-            if (index < 0)
-            { format = PixelFormat.Canonical; }
-            else
-            { format = _setImages[index].PixelFormat; }
+            //TODO: fix issue regarding indexed format images
+            /*
+             *https://stackoverflow.com/a/32002319
+             *it occured because some types of PixelFormat causes ArgumentException when passed to new Bitmap(). Here is list of these types:
+             *Gdi
+             *Alpha
+             *PAlpha
+             *Extended
+             *Canonical
+             *Undefined
+             *DontCare
+             */
+            //PixelFormat format;
+            //if (index < 0)
+            //{ format = PixelFormat.Format32bppArgb; }
+            //else
+            //{ format = _setImages[index].PixelFormat; }
 
-            Bitmap maskImage = new Bitmap(_smallestSize.Width, _smallestSize.Height, format);
+            Bitmap maskImage = new Bitmap(_smallestSize.Width, _smallestSize.Height, PixelFormat.Format32bppArgb);
             Bitmap RedMap = _edit.ScaledImage(PB_RedChannel.Image, _smallestSize);
             Bitmap GreenMap = _edit.ScaledImage(PB_GreenChannel.Image, _smallestSize);
             Bitmap BlueMap = _edit.ScaledImage(PB_BlueChannel.Image, _smallestSize);
@@ -82,7 +94,32 @@ namespace MaskGenerator
             PB_Mask.Image = maskImage;
         }
 
-        private void BT_ToMask_Click(object sender, EventArgs e)
+        private void BT_ToChannels_Click(object sender, EventArgs e)
+        {
+            if (PB_Mask.Image == null)
+            { return; }
+            Bitmap MaskBmp = new Bitmap(PB_Mask.Image);
+            Bitmap Rbmp = new Bitmap(MaskBmp.Width, MaskBmp.Height);
+            Bitmap Gbmp = new Bitmap(MaskBmp.Width, MaskBmp.Height);
+            Bitmap Bbmp = new Bitmap(MaskBmp.Width, MaskBmp.Height);
+            Bitmap Abmp = new Bitmap(MaskBmp.Width, MaskBmp.Height);
+            for (int x = 0; x < MaskBmp.Width; x++)
+            {
+                for (int y = 0; y < MaskBmp.Height; y++)
+                {
+                    Color col = MaskBmp.GetPixel(x, y);
+                    Rbmp.SetPixel(x, y, Color.FromArgb(255, col.R, col.R, col.R));
+                    Gbmp.SetPixel(x, y, Color.FromArgb(255, col.G, col.G, col.G));
+                    Bbmp.SetPixel(x, y, Color.FromArgb(255, col.B, col.B, col.B));
+                    Abmp.SetPixel(x, y, Color.FromArgb(255, col.A, col.A, col.A));
+                }
+            }
+            SetImagesAndSmallest(PB_RedChannel, Rbmp);
+            SetImagesAndSmallest(PB_BlueChannel, Gbmp);
+            SetImagesAndSmallest(PB_GreenChannel, Bbmp);
+            SetImagesAndSmallest(PB_AlphaChannel, Abmp);
+        }
+        private void BT_SaveMask_Click(object sender, EventArgs e)
         {
             // Displays a SaveFileDialog so the user can save the Image
             // assigned to Button2.
@@ -121,31 +158,6 @@ namespace MaskGenerator
 
                 fs.Close();
             }
-        }
-        private void BT_ToChannels_Click(object sender, EventArgs e)
-        {
-            if (PB_Mask.Image == null)
-            { return; }
-            Bitmap MaskBmp = new Bitmap(PB_Mask.Image);
-            Bitmap Rbmp = new Bitmap(MaskBmp.Width, MaskBmp.Height);
-            Bitmap Gbmp = new Bitmap(MaskBmp.Width, MaskBmp.Height);
-            Bitmap Bbmp = new Bitmap(MaskBmp.Width, MaskBmp.Height);
-            Bitmap Abmp = new Bitmap(MaskBmp.Width, MaskBmp.Height);
-            for (int x = 0; x < MaskBmp.Width; x++)
-            {
-                for (int y = 0; y < MaskBmp.Height; y++)
-                {
-                    Color col = MaskBmp.GetPixel(x, y);
-                    Rbmp.SetPixel(x, y, Color.FromArgb(255, col.R, col.R, col.R));
-                    Gbmp.SetPixel(x, y, Color.FromArgb(255, col.G, col.G, col.G));
-                    Bbmp.SetPixel(x, y, Color.FromArgb(255, col.B, col.B, col.B));
-                    Abmp.SetPixel(x, y, Color.FromArgb(255, col.A, col.A, col.A));
-                }
-            }
-            SetImagesAndSmallest(PB_RedChannel, Rbmp);
-            SetImagesAndSmallest(PB_BlueChannel, Gbmp);
-            SetImagesAndSmallest(PB_GreenChannel, Bbmp);
-            SetImagesAndSmallest(PB_AlphaChannel, Abmp);
         }
 
         private void BT_ClearImage_Click(object sender, EventArgs e)
